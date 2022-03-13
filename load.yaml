@@ -1,0 +1,24 @@
+---
+- name: A play to configure the Nginx Server
+  hosts: loadbal
+  vars_files:
+  - var.yaml
+  tasks: 
+  - name: Installing the Nginx server
+    package: 
+      name: "{{ ld_pack }}"
+      state: latest
+  - name: Starting the service the of Nginx
+    service:
+      name: "{{ ld_pack }}"
+      state: started
+      enabled: yes
+  - name: Copy the nginx conf fiel
+    template:
+      src: "nginx.conf.j2"
+      dest: "{{ conf_path }}/nginx.conf"
+    notify: restart apache
+  handlers:
+  - name: restart apache
+    service: 
+      name: "{{ ld_pack }}"

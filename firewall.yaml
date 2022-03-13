@@ -1,0 +1,29 @@
+---
+- hosts: all
+  tasks:
+  - name:  Installing the Firewalld Package
+    package:
+      name: "firewalld"
+      state: latest
+    register: fire
+
+  - debug:
+      msg: "Firewalld Package is Successfully installed"
+  - name: Starting the service of Firewalld
+    service:
+      name: "firewalld"
+      state: started
+    when: fire.failed == false
+  - name: Adding the rules to firewalld
+    firewalld:
+      service: http
+      state: enabled
+      permanent: yes
+      immediate: yes
+  - name: Adding the rules to firewalld
+    firewalld:
+      port: "8882/tcp"
+      state: enabled
+      permanent: yes
+      immediate: yes
+      

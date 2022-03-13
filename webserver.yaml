@@ -1,0 +1,24 @@
+---
+- name: A play to configure WebServer
+  hosts: webserver
+  tasks:
+  - name: Installing the Nginx
+    package:
+      name: "nginx"
+      state: present
+
+  - name: Starting the service of Nginx
+    service:
+      name: "nginx"
+      state: started
+      enabled: yes
+  - name: Creating the content of index file
+    lineinfile:
+      path: "/usr/share/nginx/html/index.html"
+      line: |
+        Hello Welcome to the {{ ansible_all_ipv4_addresses }} Server.
+        WebPage is serving from {{ ansible_os_family }}
+       
+        
+    
+  

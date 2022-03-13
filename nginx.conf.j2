@@ -1,0 +1,15 @@
+upstream backend {
+        
+	{% for x in groups.webserver  %}
+	server	{{ x }}:80;	
+	{% endfor %}
+}
+
+server {
+   listen 8882;
+ 
+location / {
+  proxy_buffering off;
+  proxy_pass http://backend;
+    }
+}
