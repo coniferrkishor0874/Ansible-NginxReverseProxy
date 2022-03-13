@@ -1,6 +1,0 @@
----
-- hosts: loadbal
-  tasks:
-  - name: hello
-    debug:
-      var: groups
